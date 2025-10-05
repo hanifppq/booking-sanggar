@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservasi - Sanggar Tari Tatra KJD</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="../index.html">
+          <i class="fas fa-music me-2"></i>Sanggar Tari Tatra KJD
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">
+                <i class="fas fa-home me-1"></i>Beranda
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="jadwal.html">
+                <i class="fas fa-calendar-alt me-1"></i>Jadwal
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="reservasi.html">
+                <i class="fas fa-bookmark me-1"></i>Reservasi
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fas fa-info-circle me-1"></i>Tentang
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="../index.html#tentang"
+                    >Profil Sanggar</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="../index.html#instruktur"
+                    >Instruktur</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="../index.html#galeri"
+                    >Galeri</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="../index.html#kontak"
+                    >Kontak Kami</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">
+                <i class="fas fa-sign-in-alt me-1"></i>Login
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link btn-register" href="reservasi.html">
+                <i class="fas fa-user-plus me-1"></i>Daftar
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="container text-center">
+        <h1 class="page-title">Reservasi Kelas</h1>
+        <p class="page-subtitle">
+          Daftarkan diri Anda untuk bergabung dengan kelas tari yang diinginkan
+        </p>
+      </div>
+    </section>
+
+    <!-- Steps Indicator -->
+    <section class="py-4" style="background: var(--gray-100)">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="steps-indicator">
+              <div class="step active" id="step1">
+                <div class="step-number">1</div>
+                <div class="step-label">Pilih Kelas</div>
+              </div>
+              <div class="step" id="step2">
+                <div class="step-number">2</div>
+                <div class="step-label">Data Pribadi</div>
+              </div>
+              <div class="step" id="step3">
+                <div class="step-number">3</div>
+                <div class="step-label">Konfirmasi</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reservation Form -->
+    <section class="content-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <!-- Step 1: Class Selection -->
+            <div class="form-step active" id="formStep1">
+              <div class="card-custom p-5">
+                <h3 class="text-center mb-4">
+                  <i class="fas fa-list me-2"></i>Pilih Kelas Tari
+                </h3>
+
+                <div class="row" id="classSelection">
+                  <div class="col-lg-4 mb-4">
+                    <div
+                      class="class-option"
+                      data-class="Tari Saman"
+                      data-level="Pemula"
+                      data-price="150000"
+                      data-schedule="Senin & Rabu, 16:00-17:30"
+                      data-instructor="Bu Ratna"
+                    >
+                      <div class="class-image">
+                        <img
+                          src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                          alt="Tari Saman"
+                          class="img-fluid"
+                        />
+                      </div>
+                      <div class="class-content">
+                        <h5>Tari Saman</h5>
+                        <span class="badge bg-primary mb-2">Pemula</span>
+                        <p>Tari tradisional Aceh yang energik dan dinamis</p>
+                        <div class="class-details">
+                          <p>
+                            <i class="fas fa-calendar me-2"></i>Senin & Rabu
+                          </p>
+                          <p>
+                            <i class="fas fa-clock me-2"></i>16:00 - 17:30 WIB
+                          </p>
+                          <p><i class="fas fa-user me-2"></i>Bu Ratna</p>
+                          <p>
+                            <i class="fas fa-money-bill me-2"></i>Rp
+                            150.000/bulan
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 mb-4">
+                    <div
+                      class="class-option"
+                      data-class="Tari Jaipong"
+                      data-level="Menengah"
+                      data-price="200000"
+                      data-schedule="Selasa & Kamis, 18:00-19:30"
+                      data-instructor="Kak Sinta"
+                    >
+                      <div class="class-image">
+                        <img
+                          src="https://images.unsplash.com/photo-1504609813442-a8924e83f76e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                          alt="Tari Jaipong"
+                          class="img-fluid"
+                        />
+                      </div>
+                      <div class="class-content">
+                        <h5>Tari Jaipong</h5>
+                        <span class="badge bg-warning mb-2">Menengah</span>
+                        <p>
+                          Tari modern Sunda yang penuh dengan gerakan lincah
+                        </p>
+                        <div class="class-details">
+                          <p>
+                            <i class="fas fa-calendar me-2"></i>Selasa & Kamis
+                          </p>
+                          <p>
+                            <i class="fas fa-clock me-2"></i>18:00 - 19:30 WIB
+                          </p>
+                          <p><i class="fas fa-user me-2"></i>Kak Sinta</p>
+                          <p>
+                            <i class="fas fa-money-bill me-2"></i>Rp
+                            200.000/bulan
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 mb-4">
+                    <div
+                      class="class-option"
+                      data-class="Tari Kecak"
+                      data-level="Lanjutan"
+                      data-price="250000"
+                      data-schedule="Sabtu, 09:00-11:00"
+                      data-instructor="Pak Kadek"
+                    >
+                      <div class="class-image">
+                        <img
+                          src="https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                          alt="Tari Kecak"
+                          class="img-fluid"
+                        />
+                      </div>
+                      <div class="class-content">
+                        <h5>Tari Kecak</h5>
+                        <span class="badge bg-danger mb-2">Lanjutan</span>
+                        <p>Tari sakral Bali dengan gerakan yang memukau</p>
+                        <div class="class-details">
+                          <p><i class="fas fa-calendar me-2"></i>Sabtu</p>
+                          <p>
+                            <i class="fas fa-clock me-2"></i>09:00 - 11:00 WIB
+                          </p>
+                          <p><i class="fas fa-user me-2"></i>Pak Kadek</p>
+                          <p>
+                            <i class="fas fa-money-bill me-2"></i>Rp
+                            250.000/bulan
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 mb-4">
+                    <div
+                      class="class-option"
+                      data-class="Kelas Privat"
+                      data-level="Semua Level"
+                      data-price="350000"
+                      data-schedule="Fleksibel"
+                      data-instructor="Sesuai Kebutuhan"
+                    >
+                      <div class="class-image">
+                        <img
+                          src="https://images.unsplash.com/photo-1594736797933-d0800e4c4d88?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                          alt="Kelas Privat"
+                          class="img-fluid"
+                        />
+                      </div>
+                      <div class="class-content">
+                        <h5>Kelas Privat</h5>
+                        <span class="badge bg-info mb-2">Semua Level</span>
+                        <p>
+                          Pembelajaran one-on-one dengan instruktur
+                          berpengalaman
+                        </p>
+                        <div class="class-details">
+                          <p>
+                            <i class="fas fa-calendar me-2"></i>Jadwal Fleksibel
+                          </p>
+                          <p>
+                            <i class="fas fa-clock me-2"></i>Sesuai Kesepakatan
+                          </p>
+                          <p>
+                            <i class="fas fa-user me-2"></i>Instruktur Pilihan
+                          </p>
+                          <p>
+                            <i class="fas fa-money-bill me-2"></i>Rp
+                            350.000/bulan
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 mb-4">
+                    <div
+                      class="class-option"
+                      data-class="Workshop Tematik"
+                      data-level="Menengah"
+                      data-price="220000"
+                      data-schedule="Minggu, 13:00-16:00"
+                      data-instructor="Tim KJD"
+                    >
+                      <div class="class-image">
+                        <img
+                          src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                          alt="Workshop"
+                          class="img-fluid"
+                        />
+                      </div>
+                      <div class="class-content">
+                        <h5>Workshop Tematik</h5>
+                        <span class="badge bg-success mb-2">Menengah</span>
+                        <p>Workshop dengan tema khusus setiap bulannya</p>
+                        <div class="class-details">
+                          <p><i class="fas fa-calendar me-2"></i>Minggu</p>
+                          <p>
+                            <i class="fas fa-clock me-2"></i>13:00 - 16:00 WIB
+                          </p>
+                          <p><i class="fas fa-user me-2"></i>Tim KJD</p>
+                          <p>
+                            <i class="fas fa-money-bill me-2"></i>Rp
+                            220.000/bulan
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 mb-4">
+                    <div
+                      class="class-option"
+                      data-class="Persiapan Kompetisi"
+                      data-level="Lanjutan"
+                      data-price="300000"
+                      data-schedule="Sabtu, 14:00-17:00"
+                      data-instructor="Bu Ratna & Kak Sinta"
+                    >
+                      <div class="class-image">
+                        <img
+                          src="https://images.unsplash.com/photo-1549298916-f52d724204b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                          alt="Kompetisi"
+                          class="img-fluid"
+                        />
+                      </div>
+                      <div class="class-content">
+                        <h5>Persiapan Kompetisi</h5>
+                        <span class="badge bg-danger mb-2">Lanjutan</span>
+                        <p>Latihan intensif untuk mengikuti kompetisi tari</p>
+                        <div class="class-details">
+                          <p><i class="fas fa-calendar me-2"></i>Sabtu</p>
+                          <p>
+                            <i class="fas fa-clock me-2"></i>14:00 - 17:00 WIB
+                          </p>
+                          <p>
+                            <i class="fas fa-user me-2"></i>Bu Ratna & Kak Sinta
+                          </p>
+                          <p>
+                            <i class="fas fa-money-bill me-2"></i>Rp
+                            300.000/bulan
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="text-center mt-4">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-lg"
+                    id="nextStep1"
+                    disabled
+                  >
+                    <i class="fas fa-arrow-right me-2"></i>Lanjutkan
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Personal Information -->
+            <div class="form-step" id="formStep2">
+              <div class="card-custom p-5">
+                <h3 class="text-center mb-4">
+                  <i class="fas fa-user me-2"></i>Data Pribadi
+                </h3>
+
+                <!-- Selected Class Info -->
+                <div class="alert alert-info" id="selectedClassInfo">
+                  <h6><i class="fas fa-info-circle me-2"></i>Kelas Terpilih</h6>
+                  <div id="selectedClassDetails"></div>
+                </div>
+
+                <form id="personalDataForm" novalidate>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="fullName" class="form-label"
+                        >Nama Lengkap *</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullName"
+                        name="fullName"
+                        required
+                      />
+                      <div class="invalid-feedback">
+                        Nama lengkap wajib diisi.
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="gender" class="form-label"
+                        >Jenis Kelamin *</label
+                      >
+                      <select
+                        class="form-select"
+                        id="gender"
+                        name="gender"
+                        required
+                      >
+                        <option value="">Pilih jenis kelamin</option>
+                        <option value="L">Laki-laki</option>
+                        <option value="P">Perempuan</option>
+                      </select>
+                      <div class="invalid-feedback">
+                        Jenis kelamin wajib dipilih.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="birthDate" class="form-label"
+                        >Tanggal Lahir *</label
+                      >
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="birthDate"
+                        name="birthDate"
+                        required
+                      />
+                      <div class="invalid-feedback">
+                        Tanggal lahir wajib diisi.
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="phone" class="form-label"
+                        >No. Telepon *</label
+                      >
+                      <input
+                        type="tel"
+                        class="form-control"
+                        id="phone"
+                        name="phone"
+                        placeholder="08xxxxxxxxxx"
+                        required
+                      />
+                      <div class="invalid-feedback">
+                        Nomor telepon wajib diisi dengan format yang benar.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Email *</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Email wajib diisi dengan format yang benar.
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="address" class="form-label"
+                      >Alamat Lengkap *</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="address"
+                      name="address"
+                      rows="3"
+                      required
+                    ></textarea>
+                    <div class="invalid-feedback">
+                      Alamat lengkap wajib diisi.
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="experience" class="form-label"
+                        >Pengalaman Menari</label
+                      >
+                      <select
+                        class="form-select"
+                        id="experience"
+                        name="experience"
+                      >
+                        <option value="">Pilih pengalaman...</option>
+                        <option value="Tidak ada">Tidak ada pengalaman</option>
+                        <option value="Pemula">Pemula (< 1 tahun)</option>
+                        <option value="Menengah">Menengah (1-3 tahun)</option>
+                        <option value="Lanjutan">Lanjutan (> 3 tahun)</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="emergencyContact" class="form-label"
+                        >Kontak Darurat</label
+                      >
+                      <input
+                        type="tel"
+                        class="form-control"
+                        id="emergencyContact"
+                        name="emergencyContact"
+                        placeholder="Nomor telepon keluarga"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="medicalCondition" class="form-label"
+                      >Kondisi Medis/Alergi</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="medicalCondition"
+                      name="medicalCondition"
+                      rows="2"
+                      placeholder="Jika ada kondisi khusus yang perlu kami ketahui..."
+                    ></textarea>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="motivation" class="form-label"
+                      >Motivasi Mengikuti Kelas</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="motivation"
+                      name="motivation"
+                      rows="3"
+                      placeholder="Ceritakan motivasi Anda mengikuti kelas tari..."
+                    ></textarea>
+                  </div>
+
+                  <div class="form-check mb-3">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="terms"
+                      name="terms"
+                      required
+                    />
+                    <label class="form-check-label" for="terms">
+                      Saya setuju dengan
+                      <a href="#" class="text-decoration-none"
+                        >syarat dan ketentuan</a
+                      >
+                      yang berlaku *
+                    </label>
+                    <div class="invalid-feedback">
+                      Anda harus menyetujui syarat dan ketentuan.
+                    </div>
+                  </div>
+
+                  <div class="form-check mb-4">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="newsletter"
+                      name="newsletter"
+                    />
+                    <label class="form-check-label" for="newsletter">
+                      Saya ingin menerima newsletter dan informasi terbaru dari
+                      Tatra KJD
+                    </label>
+                  </div>
+                </form>
+
+                <div class="d-flex justify-content-between">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary btn-lg"
+                    id="prevStep2"
+                  >
+                    <i class="fas fa-arrow-left me-2"></i>Kembali
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-lg"
+                    id="nextStep2"
+                  >
+                    <i class="fas fa-arrow-right me-2"></i>Lanjutkan
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Confirmation -->
+            <div class="form-step" id="formStep3">
+              <div class="card-custom p-5">
+                <h3 class="text-center mb-4">
+                  <i class="fas fa-check-circle me-2"></i>Konfirmasi Pendaftaran
+                </h3>
+
+                <div class="row">
+                  <div class="col-lg-8">
+                    <h5>Detail Pendaftaran</h5>
+                    <div id="confirmationDetails"></div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div
+                      class="summary-card p-4"
+                      style="background: var(--gray-100); border-radius: 10px"
+                    >
+                      <h6>Ringkasan Pembayaran</h6>
+                      <div id="paymentSummary"></div>
+                      <hr />
+                      <div class="d-flex justify-content-between">
+                        <strong>Total: <span id="totalAmount"></span></strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="alert alert-warning mt-4">
+                  <h6>
+                    <i class="fas fa-exclamation-triangle me-2"></i>Informasi
+                    Pembayaran
+                  </h6>
+                  <p class="mb-2">
+                    Setelah konfirmasi pendaftaran, Anda akan diarahkan untuk
+                    melakukan pembayaran melalui:
+                  </p>
+                  <ul class="mb-0">
+                    <li>Transfer Bank (BCA, Mandiri, BNI)</li>
+                    <li>E-Wallet (OVO, DANA, GoPay)</li>
+                    <li>Virtual Account</li>
+                  </ul>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary btn-lg"
+                    id="prevStep3"
+                  >
+                    <i class="fas fa-arrow-left me-2"></i>Kembali
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-success btn-lg"
+                    id="submitReservation"
+                  >
+                    <i class="fas fa-check me-2"></i>Konfirmasi Pendaftaran
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 mb-4">
+            <h5>Sanggar Tari Tatra KJD</h5>
+            <p>
+              Kelompok Jaringan Daerah yang berkomitmen melestarikan seni tari
+              tradisional Indonesia.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+              <a href="#"><i class="fab fa-tiktok"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-4">
+            <h5>Kontak</h5>
+            <p>
+              <i class="fas fa-map-marker-alt me-2"></i>Jl. Seni Budaya No. 45,
+              Jakarta Selatan
+            </p>
+            <p><i class="fas fa-phone me-2"></i>+62 812-3456-7890</p>
+            <p><i class="fas fa-envelope me-2"></i>info@tatratkjd.com</p>
+          </div>
+          <div class="col-lg-4 mb-4">
+            <h5>Jam Operasional</h5>
+            <p>Senin - Jumat: 15.00 - 21.00 WIB</p>
+            <p>Sabtu - Minggu: 08.00 - 18.00 WIB</p>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-12 text-center">
+            <p>&copy; 2025 Sanggar Tari Tatra KJD. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/script.js"></script>
+
+    <style>
+      .steps-indicator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0.5;
+        transition: all 0.3s ease;
+      }
+
+      .step.active {
+        opacity: 1;
+      }
+
+      .step-number {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--gray-600);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .step.active .step-number {
+        background: var(--primary-color);
+      }
+
+      .step-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .form-step {
+        display: none;
+      }
+
+      .form-step.active {
+        display: block;
+      }
+
+      .class-option {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        height: 100%;
+      }
+
+      .class-option:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .class-option.selected {
+        border-color: var(--accent-color);
+        background: var(--light-gold);
+        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+      }
+
+      .class-image {
+        height: 200px;
+        overflow: hidden;
+      }
+
+      .class-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .class-option:hover .class-image img {
+        transform: scale(1.1);
+      }
+
+      .class-content {
+        padding: 1.5rem;
+      }
+
+      .class-details p {
+        margin: 0.25rem 0;
+        font-size: 0.9rem;
+        color: var(--gray-600);
+      }
+
+      @media (max-width: 768px) {
+        .steps-indicator {
+          gap: 1rem;
+        }
+
+        .step-number {
+          width: 40px;
+          height: 40px;
+        }
+
+        .step-label {
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+
+    <script>
+      let selectedClass = null;
+      let currentStep = 1;
+      let formData = {};
+
+      // Initialize reservation form
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeClassSelection();
+        initializeStepNavigation();
+        initializeFormValidation();
+
+        // Check for URL parameters (from direct booking)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get("class")) {
+          selectClassFromUrl(urlParams);
+        }
+      });
+
+      function initializeClassSelection() {
+        const classOptions = document.querySelectorAll(".class-option");
+
+        classOptions.forEach((option) => {
+          option.addEventListener("click", function () {
+            // Remove previous selection
+            classOptions.forEach((opt) => opt.classList.remove("selected"));
+
+            // Add selection to clicked option
+            this.classList.add("selected");
+
+            // Store selected class data
+            selectedClass = {
+              name: this.dataset.class,
+              level: this.dataset.level,
+              price: this.dataset.price,
+              schedule: this.dataset.schedule,
+              instructor: this.dataset.instructor,
+            };
+
+            // Enable next button
+            document.getElementById("nextStep1").disabled = false;
+
+            showNotification(
+              `Kelas "${selectedClass.name}" dipilih`,
+              "success"
+            );
+          });
+        });
+      }
+
+      function selectClassFromUrl(urlParams) {
+        const className = urlParams.get("class");
+        const schedule = urlParams.get("schedule");
+        const instructor = urlParams.get("instructor");
+
+        const classOptions = document.querySelectorAll(".class-option");
+        classOptions.forEach((option) => {
+          if (option.dataset.class === className) {
+            option.click();
+          }
+        });
+      }
+
+      function initializeStepNavigation() {
+        // Next Step 1
+        document
+          .getElementById("nextStep1")
+          .addEventListener("click", function () {
+            if (selectedClass) {
+              showStep(2);
+              updateSelectedClassInfo();
+            }
+          });
+
+        // Previous Step 2
+        document
+          .getElementById("prevStep2")
+          .addEventListener("click", function () {
+            showStep(1);
+          });
+
+        // Next Step 2
+        document
+          .getElementById("nextStep2")
+          .addEventListener("click", function () {
+            const form = document.getElementById("personalDataForm");
+            if (form.checkValidity()) {
+              collectFormData();
+              showStep(3);
+              updateConfirmationDetails();
+            } else {
+              form.classList.add("was-validated");
+              showNotification(
+                "Mohon lengkapi semua field yang wajib diisi",
+                "error"
+              );
+            }
+          });
+
+        // Previous Step 3
+        document
+          .getElementById("prevStep3")
+          .addEventListener("click", function () {
+            showStep(2);
+          });
+
+        // Submit Reservation
+        document
+          .getElementById("submitReservation")
+          .addEventListener("click", function () {
+            submitReservation();
+          });
+      }
+
+      function showStep(step) {
+        // Hide all steps
+        document
+          .querySelectorAll(".form-step")
+          .forEach((s) => s.classList.remove("active"));
+        document
+          .querySelectorAll(".step")
+          .forEach((s) => s.classList.remove("active"));
+
+        // Show current step
+        document.getElementById(`formStep${step}`).classList.add("active");
+        document.getElementById(`step${step}`).classList.add("active");
+
+        currentStep = step;
+      }
+
+      function updateSelectedClassInfo() {
+        const infoElement = document.getElementById("selectedClassDetails");
+        if (selectedClass) {
+          infoElement.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Kelas:</strong> ${selectedClass.name}<br>
+                            <strong>Level:</strong> ${selectedClass.level}<br>
+                            <strong>Jadwal:</strong> ${selectedClass.schedule}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Instruktur:</strong> ${
+                              selectedClass.instructor
+                            }<br>
+                            <strong>Biaya:</strong> Rp ${parseInt(
+                              selectedClass.price
+                            ).toLocaleString()}/bulan<br>
+                            <strong>Status:</strong> <span class="text-success">Tersedia</span>
+                        </div>
+                    </div>
+                `;
+        }
+      }
+
+      function collectFormData() {
+        const form = document.getElementById("personalDataForm");
+        const formDataObj = new FormData(form);
+
+        formData = {
+          class: selectedClass,
+          personal: {},
+        };
+
+        for (let [key, value] of formDataObj.entries()) {
+          formData.personal[key] = value;
+        }
+      }
+
+      function updateConfirmationDetails() {
+        const detailsElement = document.getElementById("confirmationDetails");
+        const summaryElement = document.getElementById("paymentSummary");
+        const totalElement = document.getElementById("totalAmount");
+
+        if (formData) {
+          // Personal details
+          detailsElement.innerHTML = `
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6>Data Pribadi</h6>
+                            <p><strong>Nama:</strong> ${
+                              formData.personal.fullName
+                            }</p>
+                            <p><strong>Jenis Kelamin:</strong> ${
+                              formData.personal.gender === "L"
+                                ? "Laki-laki"
+                                : "Perempuan"
+                            }</p>
+                            <p><strong>Tanggal Lahir:</strong> ${
+                              formData.personal.birthDate
+                            }</p>
+                            <p><strong>Telepon:</strong> ${
+                              formData.personal.phone
+                            }</p>
+                            <p><strong>Email:</strong> ${
+                              formData.personal.email
+                            }</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Detail Kelas</h6>
+                            <p><strong>Kelas:</strong> ${
+                              formData.class.name
+                            }</p>
+                            <p><strong>Level:</strong> ${
+                              formData.class.level
+                            }</p>
+                            <p><strong>Jadwal:</strong> ${
+                              formData.class.schedule
+                            }</p>
+                            <p><strong>Instruktur:</strong> ${
+                              formData.class.instructor
+                            }</p>
+                            <p><strong>Pengalaman:</strong> ${
+                              formData.personal.experience || "Tidak disebutkan"
+                            }</p>
+                        </div>
+                    </div>
+                `;
+
+          // Payment summary
+          const price = parseInt(formData.class.price);
+          const adminFee = 10000;
+          const total = price + adminFee;
+
+          summaryElement.innerHTML = `
+                    <div class="d-flex justify-content-between">
+                        <span>Biaya Kelas</span>
+                        <span>Rp ${price.toLocaleString()}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Biaya Admin</span>
+                        <span>Rp ${adminFee.toLocaleString()}</span>
+                    </div>
+                `;
+
+          totalElement.textContent = `Rp ${total.toLocaleString()}`;
+        }
+      }
+
+      function submitReservation() {
+        const submitBtn = document.getElementById("submitReservation");
+        const originalText = submitBtn.innerHTML;
+
+        showLoading(submitBtn);
+
+        // Simulate API call
+        setTimeout(() => {
+          hideLoading(submitBtn, originalText);
+
+          // Generate reservation ID
+          const reservationId = "TKJ" + Date.now().toString().substr(-6);
+
+          // Save reservation to localStorage
+          const reservation = {
+            id: reservationId,
+            date: new Date().toISOString(),
+            status: "pending",
+            ...formData,
+          };
+
+          const reservations = getFromLocalStorage("reservations") || [];
+          reservations.push(reservation);
+          saveToLocalStorage("reservations", reservations);
+
+          // Show success message
+          showNotification(
+            "Pendaftaran berhasil! Silakan lakukan pembayaran.",
+            "success"
+          );
+
+          // Redirect to confirmation page or payment
+          setTimeout(() => {
+            alert(
+              `Pendaftaran berhasil!\n\nID Reservasi: ${reservationId}\nKelas: ${
+                formData.class.name
+              }\nTotal: Rp ${(
+                parseInt(formData.class.price) + 10000
+              ).toLocaleString()}\n\nSilakan lakukan pembayaran dalam 24 jam.`
+            );
+            window.location.href = "../index.html";
+          }, 2000);
+        }, 3000);
+      }
+
+      function initializeFormValidation() {
+        const form = document.getElementById("personalDataForm");
+        const inputs = form.querySelectorAll("input, select, textarea");
+
+        inputs.forEach((input) => {
+          input.addEventListener("blur", function () {
+            validateField(this);
+          });
+
+          input.addEventListener("input", function () {
+            if (this.classList.contains("is-invalid")) {
+              validateField(this);
+            }
+          });
+        });
+
+        // Phone number formatting
+        document.getElementById("phone").addEventListener("input", function () {
+          this.value = this.value.replace(/\D/g, "");
+        });
+
+        // Emergency contact formatting
+        document
+          .getElementById("emergencyContact")
+          .addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, "");
+          });
+      }
+    </script>
+  </body>
+</html>

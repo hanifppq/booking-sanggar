@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Sanggar Tari Tatra KJD</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+
+    <style>
+      :root {
+        --sidebar-width: 260px;
+        --navbar-height: 60px;
+        --primary-color: #8b4513;
+        --secondary-color: #ffd700;
+        --sidebar-bg: #2c3e50;
+        --sidebar-hover: #34495e;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f8f9fa;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: var(--sidebar-width);
+        background: var(--sidebar-bg);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        overflow-y: auto;
+      }
+
+      .sidebar.collapsed {
+        width: 70px;
+      }
+
+      .sidebar-header {
+        padding: 1rem;
+        border-bottom: 1px solid #495057;
+        text-align: center;
+      }
+
+      .sidebar-header h4 {
+        color: white;
+        margin: 0;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+      }
+
+      .sidebar.collapsed .sidebar-header h4 {
+        opacity: 0;
+      }
+
+      .sidebar-menu {
+        padding: 1rem 0;
+      }
+
+      .sidebar-menu .nav-item {
+        margin: 0.2rem 0;
+      }
+
+      .sidebar-menu .nav-link {
+        color: #bdc3c7;
+        padding: 0.8rem 1.5rem;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        background: none;
+        width: 100%;
+      }
+
+      .sidebar-menu .nav-link:hover,
+      .sidebar-menu .nav-link.active {
+        background: var(--sidebar-hover);
+        color: white;
+        border-left: 4px solid var(--secondary-color);
+      }
+
+      .sidebar-menu .nav-link i {
+        width: 20px;
+        margin-right: 0.8rem;
+        text-align: center;
+      }
+
+      .sidebar.collapsed .nav-link span {
+        display: none;
+      }
+
+      .main-content {
+        margin-left: var(--sidebar-width);
+        transition: all 0.3s ease;
+        min-height: 100vh;
+      }
+
+      .main-content.expanded {
+        margin-left: 70px;
+      }
+
+      .top-navbar {
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 0.8rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 999;
+      }
+
+      .toggle-btn {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        color: var(--primary-color);
+        cursor: pointer;
+      }
+
+      .admin-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .admin-avatar {
+        width: 40px;
+        height: 40px;
+        background: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+
+      .content-area {
+        padding: 2rem;
+      }
+
+      .page-title {
+        margin-bottom: 2rem;
+        color: var(--primary-color);
+      }
+
+      .stats-card {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        text-align: center;
+      }
+
+      .stats-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .stats-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 1.5rem;
+        color: white;
+      }
+
+      .stats-icon.users {
+        background: #3498db;
+      }
+      .stats-icon.classes {
+        background: #2ecc71;
+      }
+      .stats-icon.bookings {
+        background: #f39c12;
+      }
+      .stats-icon.revenue {
+        background: #e74c3c;
+      }
+
+      .stats-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      .stats-label {
+        color: #6c757d;
+        font-weight: 500;
+      }
+
+      .data-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .data-card-header {
+        background: var(--primary-color);
+        color: white;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: between;
+        align-items: center;
+      }
+
+      .data-card-body {
+        padding: 1.5rem;
+      }
+
+      .status-badge {
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .status-pending {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .status-confirmed {
+        background: #d1ecf1;
+        color: #0c5460;
+      }
+      .status-paid {
+        background: #d4edda;
+        color: #155724;
+      }
+      .status-cancelled {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      .action-btn {
+        padding: 0.4rem 0.8rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        margin: 0 0.2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-confirm {
+        background: #28a745;
+        color: white;
+      }
+
+      .btn-confirm:hover {
+        background: #218838;
+      }
+
+      .btn-view {
+        background: #17a2b8;
+        color: white;
+      }
+
+      .btn-view:hover {
+        background: #138496;
+      }
+
+      .btn-edit {
+        background: #ffc107;
+        color: #212529;
+      }
+
+      .btn-edit:hover {
+        background: #e0a800;
+      }
+
+      .btn-delete {
+        background: #dc3545;
+        color: white;
+      }
+
+      .btn-delete:hover {
+        background: #c82333;
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.show {
+          transform: translateX(0);
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .stats-card {
+          margin-bottom: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <i class="fas fa-music text-warning"></i>
+        <h4>Tatra KJD Admin</h4>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="nav-item">
+          <button class="nav-link active" onclick="showSection('dashboard')">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </button>
+        </div>
+        <div class="nav-item">
+          <button class="nav-link" onclick="showSection('users')">
+            <i class="fas fa-users"></i>
+            <span>Data Pengguna</span>
+          </button>
+        </div>
+        <div class="nav-item">
+          <button class="nav-link" onclick="showSection('classes')">
+            <i class="fas fa-chalkboard"></i>
+            <span>Data Kelas</span>
+          </button>
+        </div>
+        <div class="nav-item">
+          <button class="nav-link" onclick="showSection('bookings')">
+            <i class="fas fa-calendar-check"></i>
+            <span>Data Booking</span>
+          </button>
+        </div>
+        <div class="nav-item">
+          <button class="nav-link" onclick="showSection('reports')">
+            <i class="fas fa-chart-bar"></i>
+            <span>Laporan</span>
+          </button>
+        </div>
+        <hr style="border-color: #495057; margin: 1rem 0" />
+        <div class="nav-item">
+          <button class="nav-link" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+      <!-- Top Navbar -->
+      <div class="top-navbar">
+        <div class="d-flex align-items-center">
+          <button class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h5 class="mb-0 ms-3" id="pageTitle">Dashboard</h5>
+        </div>
+
+        <div class="admin-info">
+          <span>Selamat datang, <strong id="adminName">Admin</strong></span>
+          <div class="admin-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Dashboard Section -->
+        <div id="dashboard-section" class="content-section">
+          <h3 class="page-title">Dashboard Overview</h3>
+
+          <!-- Statistics Cards -->
+          <div class="row mb-4">
+            <div class="col-lg-3 col-md-6 mb-3">
+              <div class="stats-card">
+                <div class="stats-icon users">
+                  <i class="fas fa-users"></i>
+                </div>
+                <div class="stats-value" id="totalUsers">147</div>
+                <div class="stats-label">Total Pengguna</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+              <div class="stats-card">
+                <div class="stats-icon classes">
+                  <i class="fas fa-chalkboard"></i>
+                </div>
+                <div class="stats-value" id="totalClasses">9</div>
+                <div class="stats-label">Kelas Aktif</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+              <div class="stats-card">
+                <div class="stats-icon bookings">
+                  <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stats-value" id="totalBookings">23</div>
+                <div class="stats-label">Booking Hari Ini</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+              <div class="stats-card">
+                <div class="stats-icon revenue">
+                  <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="stats-value" id="totalRevenue">28.5M</div>
+                <div class="stats-label">Pendapatan (Juta)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Bookings -->
+          <div class="data-card">
+            <div class="data-card-header">
+              <h5 class="mb-0">
+                <i class="fas fa-calendar-check me-2"></i>
+                Booking Terbaru
+              </h5>
+            </div>
+            <div class="data-card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>ID Booking</th>
+                      <th>Nama Siswa</th>
+                      <th>Kelas</th>
+                      <th>Tanggal</th>
+                      <th>Status</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentBookingsTable">
+                    <!-- Data akan dimuat di sini -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Pengguna Section -->
+        <div id="users-section" class="content-section" style="display: none">
+          <h3 class="page-title">Data Pengguna</h3>
+
+          <div class="data-card">
+            <div class="data-card-header">
+              <h5 class="mb-0">
+                <i class="fas fa-users me-2"></i>
+                Daftar Pengguna
+              </h5>
+            </div>
+            <div class="data-card-body">
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Cari pengguna..."
+                    id="searchUsers"
+                  />
+                </div>
+                <div class="col-md-6 text-end">
+                  <button class="btn btn-primary" onclick="addUser()">
+                    <i class="fas fa-plus me-2"></i>Tambah Pengguna
+                  </button>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nama</th>
+                      <th>Email</th>
+                      <th>Telepon</th>
+                      <th>Tanggal Daftar</th>
+                      <th>Status</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="usersTable">
+                    <!-- Data akan dimuat di sini -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Kelas Section -->
+        <div id="classes-section" class="content-section" style="display: none">
+          <h3 class="page-title">Data Kelas</h3>
+
+          <div class="data-card">
+            <div class="data-card-header">
+              <h5 class="mb-0">
+                <i class="fas fa-chalkboard me-2"></i>
+                Daftar Kelas
+              </h5>
+            </div>
+            <div class="data-card-body">
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Cari kelas..."
+                    id="searchClasses"
+                  />
+                </div>
+                <div class="col-md-6 text-end">
+                  <button class="btn btn-primary" onclick="addClass()">
+                    <i class="fas fa-plus me-2"></i>Tambah Kelas
+                  </button>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Nama Kelas</th>
+                      <th>Instruktur</th>
+                      <th>Jadwal</th>
+                      <th>Kuota</th>
+                      <th>Harga</th>
+                      <th>Status</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="classesTable">
+                    <!-- Data akan dimuat di sini -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Booking Section -->
+        <div
+          id="bookings-section"
+          class="content-section"
+          style="display: none"
+        >
+          <h3 class="page-title">Data Booking</h3>
+
+          <div class="data-card">
+            <div class="data-card-header">
+              <h5 class="mb-0">
+                <i class="fas fa-calendar-check me-2"></i>
+                Daftar Booking
+              </h5>
+            </div>
+            <div class="data-card-body">
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Cari booking..."
+                    id="searchBookings"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <select class="form-select" id="statusFilter">
+                    <option value="">Semua Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="paid">Paid</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
+                </div>
+                <div class="col-md-4 text-end">
+                  <button class="btn btn-success" onclick="exportBookings()">
+                    <i class="fas fa-download me-2"></i>Export Data
+                  </button>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>ID Booking</th>
+                      <th>Nama Siswa</th>
+                      <th>Kelas</th>
+                      <th>Tanggal Booking</th>
+                      <th>Tanggal Kelas</th>
+                      <th>Harga</th>
+                      <th>Status Pembayaran</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bookingsTable">
+                    <!-- Data akan dimuat di sini -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Laporan Section -->
+        <div id="reports-section" class="content-section" style="display: none">
+          <h3 class="page-title">Laporan</h3>
+
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <div class="data-card">
+                <div class="data-card-header">
+                  <h5 class="mb-0">
+                    <i class="fas fa-chart-line me-2"></i>
+                    Laporan Pendapatan
+                  </h5>
+                </div>
+                <div class="data-card-body text-center">
+                  <canvas id="revenueChart" width="400" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+              <div class="data-card">
+                <div class="data-card-header">
+                  <h5 class="mb-0">
+                    <i class="fas fa-chart-pie me-2"></i>
+                    Distribusi Kelas
+                  </h5>
+                </div>
+                <div class="data-card-body text-center">
+                  <canvas id="classChart" width="400" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="data-card">
+            <div class="data-card-header">
+              <h5 class="mb-0">
+                <i class="fas fa-download me-2"></i>
+                Generate Laporan
+              </h5>
+            </div>
+            <div class="data-card-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <label class="form-label">Jenis Laporan</label>
+                  <select class="form-select" id="reportType">
+                    <option value="revenue">Laporan Pendapatan</option>
+                    <option value="bookings">Laporan Booking</option>
+                    <option value="users">Laporan Pengguna</option>
+                    <option value="classes">Laporan Kelas</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Dari Tanggal</label>
+                  <input type="date" class="form-control" id="startDate" />
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Sampai Tanggal</label>
+                  <input type="date" class="form-control" id="endDate" />
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">&nbsp;</label>
+                  <button
+                    class="btn btn-primary d-block"
+                    onclick="generateReport()"
+                  >
+                    <i class="fas fa-download me-2"></i>Generate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/script.js"></script>
+
+    <script>
+      // Check admin authentication
+      document.addEventListener("DOMContentLoaded", function () {
+        checkAdminAuth();
+        initializeDashboard();
+        loadSampleData();
+        initializeCharts();
+      });
+
+      function checkAdminAuth() {
+        const isLoggedIn = getFromLocalStorage("isLoggedIn");
+        const userType = getFromLocalStorage("userType") || "admin"; // Default to admin for demo
+
+        if (!isLoggedIn) {
+          showNotification("Silakan login terlebih dahulu", "warning");
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 2000);
+          return;
+        }
+
+        // Set admin name
+        const userEmail =
+          getFromLocalStorage("userEmail") || "admin@tatratkjd.com";
+        document.getElementById("adminName").textContent =
+          userEmail.split("@")[0];
+      }
+
+      function initializeDashboard() {
+        // Set default dates for report
+        const today = new Date();
+        const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+
+        document.getElementById("startDate").value = startDate
+          .toISOString()
+          .split("T")[0];
+        document.getElementById("endDate").value = today
+          .toISOString()
+          .split("T")[0];
+      }
+
+      // Sidebar Functions
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("mainContent");
+
+        sidebar.classList.toggle("collapsed");
+        mainContent.classList.toggle("expanded");
+      }
+
+      function showSection(sectionName) {
+        // Hide all sections
+        const sections = document.querySelectorAll(".content-section");
+        sections.forEach((section) => (section.style.display = "none"));
+
+        // Show selected section
+        document.getElementById(sectionName + "-section").style.display =
+          "block";
+
+        // Update page title
+        const titles = {
+          dashboard: "Dashboard",
+          users: "Data Pengguna",
+          classes: "Data Kelas",
+          bookings: "Data Booking",
+          reports: "Laporan",
+        };
+        document.getElementById("pageTitle").textContent = titles[sectionName];
+
+        // Update active menu
+        const navLinks = document.querySelectorAll(".nav-link");
+        navLinks.forEach((link) => link.classList.remove("active"));
+        event.target.classList.add("active");
+      }
+
+      // Load Sample Data
+      function loadSampleData() {
+        loadRecentBookings();
+        loadUsersData();
+        loadClassesData();
+        loadBookingsData();
+      }
+
+      function loadRecentBookings() {
+        const bookings = [
+          {
+            id: "BK001",
+            student: "Sari Dewi",
+            class: "Tari Saman",
+            date: "2025-01-04",
+            status: "pending",
+          },
+          {
+            id: "BK002",
+            student: "Ahmad Fauzi",
+            class: "Tari Jaipong",
+            date: "2025-01-04",
+            status: "confirmed",
+          },
+          {
+            id: "BK003",
+            student: "Maya Sinta",
+            class: "Kelas Privat",
+            date: "2025-01-05",
+            status: "paid",
+          },
+          {
+            id: "BK004",
+            student: "Rian Pratama",
+            class: "Tari Kecak",
+            date: "2025-01-05",
+            status: "pending",
+          },
+          {
+            id: "BK005",
+            student: "Lisa Permata",
+            class: "Tari Jaipong",
+            date: "2025-01-06",
+            status: "confirmed",
+          },
+        ];
+
+        const tbody = document.getElementById("recentBookingsTable");
+        tbody.innerHTML = bookings
+          .map(
+            (booking) => `
+                <tr>
+                    <td>${booking.id}</td>
+                    <td>${booking.student}</td>
+                    <td>${booking.class}</td>
+                    <td>${booking.date}</td>
+                    <td>
+                        <span class="status-badge status-${booking.status}">
+                            ${
+                              booking.status === "pending"
+                                ? "Pending"
+                                : booking.status === "confirmed"
+                                ? "Confirmed"
+                                : booking.status === "paid"
+                                ? "Paid"
+                                : "Cancelled"
+                            }
+                        </span>
+                    </td>
+                    <td>
+                        <button class="action-btn btn-view" onclick="viewBooking('${
+                          booking.id
+                        }')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        ${
+                          booking.status === "pending"
+                            ? `
+                            <button class="action-btn btn-confirm" onclick="confirmPayment('${booking.id}')">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        `
+                            : ""
+                        }
+                    </td>
+                </tr>
+            `
+          )
+          .join("");
+      }
+
+      function loadUsersData() {
+        const users = [
+          {
+            id: "U001",
+            name: "Sari Dewi Lestari",
+            email: "sari@email.com",
+            phone: "081234567890",
+            joinDate: "2024-12-15",
+            status: "active",
+          },
+          {
+            id: "U002",
+            name: "Ahmad Fauzi Rahman",
+            email: "ahmad@email.com",
+            phone: "081234567891",
+            joinDate: "2024-12-20",
+            status: "active",
+          },
+          {
+            id: "U003",
+            name: "Maya Sinta Pertiwi",
+            email: "maya@email.com",
+            phone: "081234567892",
+            joinDate: "2025-01-02",
+            status: "active",
+          },
+          {
+            id: "U004",
+            name: "Rian Pratama Jaya",
+            email: "rian@email.com",
+            phone: "081234567893",
+            joinDate: "2025-01-03",
+            status: "inactive",
+          },
+          {
+            id: "U005",
+            name: "Lisa Permata Sari",
+            email: "lisa@email.com",
+            phone: "081234567894",
+            joinDate: "2025-01-04",
+            status: "active",
+          },
+        ];
+
+        const tbody = document.getElementById("usersTable");
+        tbody.innerHTML = users
+          .map(
+            (user) => `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.phone}</td>
+                    <td>${user.joinDate}</td>
+                    <td>
+                        <span class="status-badge status-${
+                          user.status === "active" ? "confirmed" : "cancelled"
+                        }">
+                            ${
+                              user.status === "active" ? "Aktif" : "Tidak Aktif"
+                            }
+                        </span>
+                    </td>
+                    <td>
+                        <button class="action-btn btn-view" onclick="viewUser('${
+                          user.id
+                        }')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn btn-edit" onclick="editUser('${
+                          user.id
+                        }')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn btn-delete" onclick="deleteUser('${
+                          user.id
+                        }')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `
+          )
+          .join("");
+      }
+
+      function loadClassesData() {
+        const classes = [
+          {
+            name: "Tari Saman",
+            instructor: "Bu Ratna Sari",
+            schedule: "Senin & Rabu 16:00-17:30",
+            quota: "8/15",
+            price: "Rp 150.000",
+            status: "active",
+          },
+          {
+            name: "Tari Jaipong",
+            instructor: "Kak Sinta Dewi",
+            schedule: "Selasa & Kamis 18:00-19:30",
+            quota: "12/15",
+            price: "Rp 200.000",
+            status: "active",
+          },
+          {
+            name: "Tari Kecak",
+            instructor: "Pak Kadek Wirama",
+            schedule: "Sabtu 09:00-11:00",
+            quota: "15/15",
+            price: "Rp 250.000",
+            status: "full",
+          },
+          {
+            name: "Kelas Privat",
+            instructor: "Bu Ratna Sari",
+            schedule: "Fleksibel",
+            quota: "3/5",
+            price: "Rp 350.000",
+            status: "active",
+          },
+          {
+            name: "Workshop Tari Bali",
+            instructor: "Pak Kadek Wirama",
+            schedule: "Minggu 10:00-15:00",
+            quota: "10/20",
+            price: "Rp 500.000",
+            status: "active",
+          },
+        ];
+
+        const tbody = document.getElementById("classesTable");
+        tbody.innerHTML = classes
+          .map(
+            (cls) => `
+                <tr>
+                    <td>${cls.name}</td>
+                    <td>${cls.instructor}</td>
+                    <td>${cls.schedule}</td>
+                    <td>${cls.quota}</td>
+                    <td>${cls.price}</td>
+                    <td>
+                        <span class="status-badge status-${
+                          cls.status === "active"
+                            ? "confirmed"
+                            : cls.status === "full"
+                            ? "pending"
+                            : "cancelled"
+                        }">
+                            ${
+                              cls.status === "active"
+                                ? "Aktif"
+                                : cls.status === "full"
+                                ? "Penuh"
+                                : "Tidak Aktif"
+                            }
+                        </span>
+                    </td>
+                    <td>
+                        <button class="action-btn btn-view" onclick="viewClass('${
+                          cls.name
+                        }')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn btn-edit" onclick="editClass('${
+                          cls.name
+                        }')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                </tr>
+            `
+          )
+          .join("");
+      }
+
+      function loadBookingsData() {
+        const bookings = [
+          {
+            id: "BK001",
+            student: "Sari Dewi",
+            class: "Tari Saman",
+            bookingDate: "2025-01-02",
+            classDate: "2025-01-06",
+            price: "Rp 150.000",
+            status: "pending",
+          },
+          {
+            id: "BK002",
+            student: "Ahmad Fauzi",
+            class: "Tari Jaipong",
+            bookingDate: "2025-01-02",
+            classDate: "2025-01-07",
+            price: "Rp 200.000",
+            status: "confirmed",
+          },
+          {
+            id: "BK003",
+            student: "Maya Sinta",
+            class: "Kelas Privat",
+            bookingDate: "2025-01-03",
+            classDate: "2025-01-08",
+            price: "Rp 350.000",
+            status: "paid",
+          },
+          {
+            id: "BK004",
+            student: "Rian Pratama",
+            class: "Tari Kecak",
+            bookingDate: "2025-01-03",
+            classDate: "2025-01-11",
+            price: "Rp 250.000",
+            status: "pending",
+          },
+          {
+            id: "BK005",
+            student: "Lisa Permata",
+            class: "Tari Jaipong",
+            bookingDate: "2025-01-04",
+            classDate: "2025-01-09",
+            price: "Rp 200.000",
+            status: "confirmed",
+          },
+          {
+            id: "BK006",
+            student: "Dedi Setiawan",
+            class: "Workshop Tari Bali",
+            bookingDate: "2025-01-04",
+            classDate: "2025-01-12",
+            price: "Rp 500.000",
+            status: "paid",
+          },
+        ];
+
+        const tbody = document.getElementById("bookingsTable");
+        tbody.innerHTML = bookings
+          .map(
+            (booking) => `
+                <tr>
+                    <td>${booking.id}</td>
+                    <td>${booking.student}</td>
+                    <td>${booking.class}</td>
+                    <td>${booking.bookingDate}</td>
+                    <td>${booking.classDate}</td>
+                    <td>${booking.price}</td>
+                    <td>
+                        <span class="status-badge status-${booking.status}">
+                            ${
+                              booking.status === "pending"
+                                ? "Pending"
+                                : booking.status === "confirmed"
+                                ? "Confirmed"
+                                : booking.status === "paid"
+                                ? "Paid"
+                                : "Cancelled"
+                            }
+                        </span>
+                    </td>
+                    <td>
+                        <button class="action-btn btn-view" onclick="viewBooking('${
+                          booking.id
+                        }')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        ${
+                          booking.status === "pending" ||
+                          booking.status === "confirmed"
+                            ? `
+                            <button class="action-btn btn-confirm" onclick="confirmPayment('${booking.id}')">
+                                <i class="fas fa-credit-card"></i>
+                            </button>
+                        `
+                            : ""
+                        }
+                        <button class="action-btn btn-edit" onclick="editBooking('${
+                          booking.id
+                        }')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                </tr>
+            `
+          )
+          .join("");
+      }
+
+      function initializeCharts() {
+        // Revenue Chart
+        const ctx1 = document.getElementById("revenueChart").getContext("2d");
+        new Chart(ctx1, {
+          type: "line",
+          data: {
+            labels: ["Sep", "Okt", "Nov", "Des", "Jan"],
+            datasets: [
+              {
+                label: "Pendapatan (Juta)",
+                data: [18.5, 22.3, 25.8, 28.1, 28.5],
+                borderColor: "#8B4513",
+                backgroundColor: "rgba(139, 69, 19, 0.1)",
+                tension: 0.4,
+                fill: true,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+
+        // Class Distribution Chart
+        const ctx2 = document.getElementById("classChart").getContext("2d");
+        new Chart(ctx2, {
+          type: "doughnut",
+          data: {
+            labels: [
+              "Tari Saman",
+              "Tari Jaipong",
+              "Tari Kecak",
+              "Kelas Privat",
+              "Workshop",
+            ],
+            datasets: [
+              {
+                data: [25, 30, 20, 15, 10],
+                backgroundColor: [
+                  "#8B4513",
+                  "#D2691E",
+                  "#FFD700",
+                  "#FFA500",
+                  "#CD853F",
+                ],
+                borderWidth: 0,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+              },
+            },
+          },
+        });
+      }
+
+      // Action Functions
+      function confirmPayment(bookingId) {
+        showNotification(
+          `Mengkonfirmasi pembayaran booking ${bookingId}...`,
+          "info"
+        );
+        setTimeout(() => {
+          showNotification(
+            `Pembayaran booking ${bookingId} berhasil dikonfirmasi!`,
+            "success"
+          );
+          loadSampleData(); // Reload data
+        }, 1500);
+      }
+
+      function viewBooking(bookingId) {
+        showNotification(`Melihat detail booking ${bookingId}`, "info");
+      }
+
+      function editBooking(bookingId) {
+        showNotification(`Edit booking ${bookingId}`, "info");
+      }
+
+      function viewUser(userId) {
+        showNotification(`Melihat detail user ${userId}`, "info");
+      }
+
+      function editUser(userId) {
+        showNotification(`Edit user ${userId}`, "info");
+      }
+
+      function deleteUser(userId) {
+        if (confirm("Apakah Anda yakin ingin menghapus user ini?")) {
+          showNotification(`User ${userId} berhasil dihapus`, "success");
+          loadUsersData();
+        }
+      }
+
+      function addUser() {
+        showNotification("Fitur tambah pengguna akan segera tersedia", "info");
+      }
+
+      function viewClass(className) {
+        showNotification(`Melihat detail kelas ${className}`, "info");
+      }
+
+      function editClass(className) {
+        showNotification(`Edit kelas ${className}`, "info");
+      }
+
+      function addClass() {
+        showNotification("Fitur tambah kelas akan segera tersedia", "info");
+      }
+
+      function exportBookings() {
+        showNotification("Mengexport data booking...", "info");
+        setTimeout(() => {
+          showNotification("Data booking berhasil diexport!", "success");
+        }, 2000);
+      }
+
+      function generateReport() {
+        const reportType = document.getElementById("reportType").value;
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+
+        if (!startDate || !endDate) {
+          showNotification("Silakan pilih tanggal mulai dan akhir", "warning");
+          return;
+        }
+
+        showNotification(
+          `Generating ${reportType} dari ${startDate} hingga ${endDate}...`,
+          "info"
+        );
+        setTimeout(() => {
+          showNotification(
+            "Laporan berhasil dibuat dan didownload!",
+            "success"
+          );
+        }, 2500);
+      }
+
+      function logout() {
+        if (confirm("Apakah Anda yakin ingin logout?")) {
+          removeFromLocalStorage("isLoggedIn");
+          removeFromLocalStorage("userType");
+          removeFromLocalStorage("userEmail");
+          showNotification("Logout berhasil", "success");
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 1000);
+        }
+      }
+
+      // Search and Filter Functions
+      document
+        .getElementById("searchUsers")
+        .addEventListener("input", function () {
+          // Implement user search logic here
+        });
+
+      document
+        .getElementById("searchClasses")
+        .addEventListener("input", function () {
+          // Implement class search logic here
+        });
+
+      document
+        .getElementById("searchBookings")
+        .addEventListener("input", function () {
+          // Implement booking search logic here
+        });
+
+      document
+        .getElementById("statusFilter")
+        .addEventListener("change", function () {
+          // Implement status filter logic here
+        });
+    </script>
+  </body>
+</html>

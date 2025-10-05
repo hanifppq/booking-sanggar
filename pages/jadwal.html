@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Kelas - Sanggar Tari Tatra KJD</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 8rem 0 4rem;
+            margin-top: 70px;
+        }
+        
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .schedule-filters {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: -3rem 0 3rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .schedule-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            padding: 1.2rem 1rem;
+            border: none;
+            font-size: 0.95rem;
+        }
+        
+        .table td {
+            padding: 1.2rem 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .table tbody tr:hover {
+            background-color: var(--light-gold);
+            transition: all 0.3s ease;
+        }
+        
+        .day-badge {
+            background: var(--accent-color);
+            color: var(--text-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        .time-badge {
+            background: var(--gray-100);
+            color: var(--text-dark);
+            padding: 0.4rem 0.8rem;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .dance-type {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+        
+        .instructor-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .instructor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.8rem;
+            object-fit: cover;
+        }
+        
+        .instructor-name {
+            font-weight: 500;
+            color: var(--text-dark);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+        
+        .instructor-specialty {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin: 0;
+        }
+        
+        .quota-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .quota-numbers {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .quota-bar {
+            width: 60px;
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .quota-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .quota-low { background: var(--success); }
+        .quota-medium { background: var(--warning); }
+        .quota-high { background: var(--danger); }
+        
+        .btn-booking {
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            border: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .btn-booking:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+            color: var(--text-dark);
+        }
+        
+        .btn-booking:disabled {
+            background: var(--gray-200);
+            color: var(--text-light);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .filter-btn {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .level-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .level-beginner { background: #e8f5e8; color: #2d7d2d; }
+        .level-intermediate { background: #fff3cd; color: #856404; }
+        .level-advanced { background: #f8d7da; color: #721c24; }
+        
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .schedule-filters {
+                padding: 1.5rem;
+                margin: -2rem 0 2rem;
+            }
+            
+            .table-responsive {
+                font-size: 0.9rem;
+            }
+            
+            .instructor-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .instructor-avatar {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: rgba(139, 69, 19, 0.95); backdrop-filter: blur(10px);">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                <i class="fas fa-music me-2" style="color: #FFD700;"></i>
+                <span style="font-family: 'Playfair Display', serif; font-weight: 600;">Sanggar Tari Tatra KJD</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">
+                            <i class="fas fa-home me-1"></i>Beranda
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="jadwal.html">
+                            <i class="fas fa-calendar-alt me-1"></i>Jadwal
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reservasi.html">
+                            <i class="fas fa-bookmark me-1"></i>Reservasi
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">
+                            <i class="fas fa-sign-in-alt me-1"></i>Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container text-center">
+            <h1 class="page-title">Jadwal Kelas Tari</h1>
+            <p class="page-subtitle">Temukan kelas yang sesuai dengan jadwal dan level</p>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="py-5" style="background: var(--light-gold);">
+        <div class="container">
+            <!-- Filters -->
+            <div class="schedule-filters">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-3 mb-lg-0">
+                        <h5 class="mb-3">
+                            <i class="fas fa-filter me-2 text-primary"></i>Filter Kelas
+                        </h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="filter-btn active" data-filter="all">Semua</button>
+                            <button class="filter-btn" data-filter="senin">Senin</button>
+                            <button class="filter-btn" data-filter="selasa">Selasa</button>
+                            <button class="filter-btn" data-filter="rabu">Rabu</button>
+                            <button class="filter-btn" data-filter="kamis">Kamis</button>
+                            <button class="filter-btn" data-filter="jumat">Jumat</button>
+                            <button class="filter-btn" data-filter="sabtu">Sabtu</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5 class="mb-3">
+                            <i class="fas fa-search me-2 text-primary"></i>Cari Kelas
+                        </h5>
+                        <input type="text" class="form-control" id="searchClass" placeholder="Cari berdasarkan jenis tari atau instruktur...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schedule Table -->
+            <div class="schedule-table">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0" id="scheduleTable">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-calendar-day me-2"></i>Hari</th>
+                                <th><i class="fas fa-clock me-2"></i>Waktu</th>
+                                <th><i class="fas fa-dance me-2"></i>Jenis Tari</th>
+                                <th><i class="fas fa-user me-2"></i>Instruktur</th>
+                                <th><i class="fas fa-users me-2"></i>Kuota</th>
+                                <th><i class="fas fa-calendar-check me-2"></i>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Senin -->
+                            <tr data-day="senin">
+                                <td><span class="day-badge">Senin</span></td>
+                                <td><span class="time-badge">16:00 - 17:30</span></td>
+                                <td>
+                                    <div class="dance-type">Tari Saman</div>
+                                    <span class="level-badge level-beginner">Pemula</span>
+                                </td>
+                                <td>
+                                    <div class="instructor-info">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b586?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                             alt="Bu Ratna" class="instructor-avatar">
+                                        <div>
+                                            <p class="instructor-name">Bu Ratna Sari</p>
+                                            <p class="instructor-specialty">Spesialis Tari Aceh</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="quota-info">
+                                        <div class="quota-numbers">8/15</div>
+                                        <div class="quota-bar">
+                                            <div class="quota-fill quota-low" style="width: 53%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-booking" onclick="bookClass('Tari Saman', 'Senin 16:00')">
+                                        <i class="fas fa-calendar-plus me-1"></i>Booking
+                                    </button>
+                                </td>
+                            </tr>
+                            
+                            <tr data-day="senin">
+                                <td><span class="day-badge">Senin</span></td>
+                                <td><span class="time-badge">18:00 - 19:30</span></td>
+                                <td>
+                                    <div class="dance-type">Tari Jaipong</div>
+                                    <span class="level-badge level-intermediate">Menengah</span>
+                                </td>
+                                <td>
+                                    <div class="instructor-info">
+                                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                             alt="Kak Sinta" class="instructor-avatar">
+                                        <div>
+                                            <p class="instructor-name">Kak Sinta Dewi</p>
+                                            <p class="instructor-specialty">Spesialis Tari Sunda</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="quota-info">
+                                        <div class="quota-numbers">12/15</div>
+                                        <div class="quota-bar">
+                                            <div class="quota-fill quota-medium" style="width: 80%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-booking" onclick="bookClass('Tari Jaipong', 'Senin 18:00')">
+                                        <i class="fas fa-calendar-plus me-1"></i>Booking
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Selasa -->
+                            <tr data-day="selasa">
+                                <td><span class="day-badge">Selasa</span></td>
+                                <td><span class="time-badge">16:00 - 17:30</span></td>
+                                <td>
+                                    <div class="dance-type">Tari Kecak</div>
+                                    <span class="level-badge level-advanced">Lanjutan</span>
+                                </td>
+                                <td>
+                                    <div class="instructor-info">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                             alt="Pak Kadek" class="instructor-avatar">
+                                        <div>
+                                            <p class="instructor-name">Pak Kadek Wirama</p>
+                                            <p class="instructor-specialty">Maestro Tari Bali</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="quota-info">
+                                        <div class="quota-numbers">15/15</div>
+                                        <div class="quota-bar">
+                                            <div class="quota-fill quota-high" style="width: 100%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-booking" disabled>
+                                        <i class="fas fa-ban me-1"></i>Penuh
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Rabu -->
+                            <tr data-day="rabu">
+                                <td><span class="day-badge">Rabu</span></td>
+                                <td><span class="time-badge">16:00 - 17:30</span></td>
+                                <td>
+                                    <div class="dance-type">Tari Saman</div>
+                                    <span class="level-badge level-beginner">Pemula</span>
+                                </td>
+                                <td>
+                                    <div class="instructor-info">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b586?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                             alt="Bu Ratna" class="instructor-avatar">
+                                        <div>
+                                            <p class="instructor-name">Bu Ratna Sari</p>
+                                            <p class="instructor-specialty">Spesialis Tari Aceh</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="quota-info">
+                                        <div class="quota-numbers">8/15</div>
+                                        <div class="quota-bar">
+                                            <div class="quota-fill quota-low" style="width: 53%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-booking" onclick="bookClass('Tari Saman', 'Rabu 16:00')">
+                                        <i class="fas fa-calendar-plus me-1"></i>Booking
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr data-day="rabu">
+                                <td><span class="day-badge">Rabu</span></td>
+                                <td><span class="time-badge">19:00 - 20:30</span></td>
+                                <td>
+                                    <div class="dance-type">Tari Kontemporer</div>
+                                    <span class="level-badge level-intermediate">Menengah</span>
+                                </td>
+                                <td>
+                                    <div class="instructor-info">
+                                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                             alt="Mbak Dian" class="instructor-avatar">
+                                        <div>
+                                            <p class="instructor-name">Mbak Dian Sastro</p>
+                                            <p class="instructor-specialty">Koreografer Modern</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="quota-info">
+                                        <div class="quota-numbers">6/12</div>
+                                        <div class="quota-bar">
+                                            <div class="quota-fill quota-low" style="width: 50%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-booking" onclick="bookClass('Tari Kontemporer', 'Rabu 19:00')">
+                                        <i class="fas fa-calendar-plus me-1"></i>Booking
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Kamis -->
+                            <tr data-day="kamis">
+                                <td><span class="day-badge">Kamis</span></td>
+                                <td><span class="time-badge">18:00 - 19:30</span></td>
+                                <td>
+                                    <div class="dance-type">Tari Jaipong</div>
+                                    <span class="level-badge level-intermediate">Menengah</span>
+                                </td>
+                                <td>
+                                    <div class="instructor-info">
+                                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                             alt="Kak Sinta" class="instructor-avatar">
+                                        <div>
+                                            <p class="instructor-name">Kak Sinta Dewi</p>
+                                            <p class="instructor-specialty">Spesialis Tari Sunda</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="quota-info">
+                                        <div class="quota-numbers">12/15</div>
+                                        <div class="quota-bar">
+                                            <div class="quota-fill quota-medium" style="width: 80%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-booking" onclick="bookClass('Tari Jaipong', 'Kamis 18:00')">
+                                        <i class="fas fa-calendar-plus me-1"></i>Booking
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Jumat -->
+                            <tr data-day="jumat">
+                                <td><span class="day-badge">Jumat</span></td>
+                                <td><span class="time-badge">16:00 - 17:30</span></td>
+                                <td>
+                                    <div class="dance-type">Tari Pendet</div>
+                                    <span class="level-badge level-beginner">Pemula</span>
+                                </td>
+                                <td>
+                                    <div class="instructor-info">
+                                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                             alt="Bu Kadek" class="instructor-avatar">
+                                        <div>
+                                            <p class="instructor-name">Bu Kadek Sari</p>
+                                            <p class="instructor-specialty">Instruktur Tari Bali</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="quota-info">
+                                        <div class="quota-numbers">5/15</div>
+                                        <div class="quota-bar">
+                                            <div class="quota-fill quota-low" style="width: 33%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-booking" onclick="bookClass('Tari Pendet', 'Jumat 16:00')">
+                                        <i class="fas fa-calendar-plus me-1"></i>Booking
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Sabtu -->
+                            <tr data-day="sabtu">
+                                <td><span class="day-badge">Sabtu</span></td>
+                                <td><span class="time-badge">09:00 - 10:30</span></td>
+                                <td>
+                                    <div class="dance-type">Kelas Privat</div>
+                                    <span class="level-badge level-advanced">All Level</span>
+                                </td>
+                                <td>
+                                    <div class="instructor-info">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                             alt="Tim Instruktur" class="instructor-avatar">
+                                        <div>
+                                            <p class="instructor-name">Tim Instruktur</p>
+                                            <p class="instructor-specialty">Sesuai Kebutuhan</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="quota-info">
+                                        <div class="quota-numbers">2/5</div>
+                                        <div class="quota-bar">
+                                            <div class="quota-fill quota-low" style="width: 40%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-booking" onclick="bookClass('Kelas Privat', 'Sabtu 09:00')">
+                                        <i class="fas fa-calendar-plus me-1"></i>Booking
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr data-day="sabtu">
+                                <td><span class="day-badge">Sabtu</span></td>
+                                <td><span class="time-badge">14:00 - 16:00</span></td>
+                                <td>
+                                    <div class="dance-type">Workshop Tari Kreasi</div>
+                                    <span class="level-badge level-intermediate">Menengah</span>
+                                </td>
+                                <td>
+                                    <div class="instructor-info">
+                                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" 
+                                             alt="Mbak Dian" class="instructor-avatar">
+                                        <div>
+                                            <p class="instructor-name">Mbak Dian Sastro</p>
+                                            <p class="instructor-specialty">Koreografer Modern</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="quota-info">
+                                        <div class="quota-numbers">10/20</div>
+                                        <div class="quota-bar">
+                                            <div class="quota-fill quota-low" style="width: 50%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-booking" onclick="bookClass('Workshop Tari Kreasi', 'Sabtu 14:00')">
+                                        <i class="fas fa-calendar-plus me-1"></i>Booking
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Info Cards -->
+            <div class="row mt-5">
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-info-circle fa-3x text-primary mb-3"></i>
+                            <h5>Informasi Kelas</h5>
+                            <p class="text-muted">Setiap kelas memiliki durasi 90 menit dengan istirahat 15 menit di tengah sesi.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-money-bill-wave fa-3x text-success mb-3"></i>
+                            <h5>Biaya Kelas</h5>
+                            <p class="text-muted">Biaya mulai dari Rp 150.000/bulan untuk kelas reguler dan Rp 350.000/sesi untuk privat.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-calendar-check fa-3x text-warning mb-3"></i>
+                            <h5>Pendaftaran</h5>
+                            <p class="text-muted">Daftar minimal 1 hari sebelum kelas dimulai. Pembayaran dapat dilakukan cash atau transfer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: var(--text-dark); color: white; padding: 3rem 0 1rem;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 style="color: var(--accent-color); margin-bottom: 1.5rem;">Sanggar Tari Tatra KJD</h5>
+                    <p style="color: #BDC3C7;">
+                        Jadwal kelas dapat berubah sewaktu-waktu. Pastikan untuk mengonfirmasi jadwal sebelum datang.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="#" style="color: var(--accent-color); font-size: 1.5rem;">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" style="color: var(--accent-color); font-size: 1.5rem;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" style="color: var(--accent-color); font-size: 1.5rem;">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" style="color: var(--accent-color); font-size: 1.5rem;">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h5 style="color: var(--accent-color); margin-bottom: 1.5rem;">Kontak</h5>
+                    <div class="mb-2">
+                        <i class="fas fa-map-marker-alt me-2" style="color: var(--accent-color);"></i>
+                        <span style="color: #BDC3C7;">Jl. Seni Budaya No. 123, Jakarta Selatan</span>
+                    </div>
+                    <div class="mb-2">
+                        <i class="fas fa-phone me-2" style="color: var(--accent-color);"></i>
+                        <span style="color: #BDC3C7;">+62 812-3456-7890</span>
+                    </div>
+                    <div class="mb-2">
+                        <i class="fas fa-envelope me-2" style="color: var(--accent-color);"></i>
+                        <span style="color: #BDC3C7;">info@tatratkjd.com</span>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h5 style="color: var(--accent-color); margin-bottom: 1.5rem;">Jam Operasional</h5>
+                    <div class="mb-2" style="color: #BDC3C7;">
+                        <i class="fas fa-clock me-2" style="color: var(--accent-color);"></i>
+                        Senin - Jumat: 15:00-21:00
+                    </div>
+                    <div class="mb-2" style="color: #BDC3C7;">
+                        <i class="fas fa-clock me-2" style="color: var(--accent-color);"></i>
+                        Sabtu: 09:00-18:00
+                    </div>
+                    <div style="color: #BDC3C7;">
+                        <i class="fas fa-clock me-2" style="color: var(--accent-color);"></i>
+                        Minggu: Tutup
+                    </div>
+                </div>
+            </div>
+            
+            <hr style="border-color: #34495E; margin: 2rem 0 1rem;">
+            
+            <div class="text-center">
+                <p style="color: #95A5A6; margin: 0;">
+                    &copy; 2025 Sanggar Tari Tatra KJD. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // CSS Variables and styling
+        const style = document.createElement('style');
+        style.textContent = `
+            :root {
+                --primary-color: #8B4513;
+                --secondary-color: #D2691E;
+                --accent-color: #FFD700;
+                --light-gold: #FFF8DC;
+                --text-dark: #2C3E50;
+                --text-light: #7F8C8D;
+                --success: #27AE60;
+                --warning: #F39C12;
+                --danger: #E74C3C;
+                --gray-100: #F8F9FA;
+                --gray-200: #E9ECEF;
+                --gray-600: #6C757D;
+            }
+            
+            /* Navbar text styling */
+            .navbar-dark .navbar-nav .nav-link {
+                color: #ffffff !important;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            }
+
+            .navbar-dark .navbar-nav .nav-link:hover,
+            .navbar-dark .navbar-nav .nav-link:focus {
+                color: var(--accent-color) !important;
+            }
+
+            .navbar-dark .navbar-nav .nav-link.active {
+                color: var(--accent-color) !important;
+                font-weight: 600;
+            }
+
+            .navbar-dark .navbar-brand {
+                color: #ffffff !important;
+                font-weight: 600;
+            }
+
+            .navbar-dark .navbar-brand:hover {
+                color: var(--accent-color) !important;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const tableRows = document.querySelectorAll('#scheduleTable tbody tr');
+            const searchInput = document.getElementById('searchClass');
+            
+            // Filter by day
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter rows
+                    tableRows.forEach(row => {
+                        if (filter === 'all') {
+                            row.style.display = '';
+                        } else {
+                            const rowDay = row.getAttribute('data-day');
+                            row.style.display = rowDay === filter ? '' : 'none';
+                        }
+                    });
+                    
+                    // Clear search when using filter
+                    searchInput.value = '';
+                });
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                tableRows.forEach(row => {
+                    const danceType = row.querySelector('.dance-type').textContent.toLowerCase();
+                    const instructorName = row.querySelector('.instructor-name').textContent.toLowerCase();
+                    const day = row.querySelector('.day-badge').textContent.toLowerCase();
+                    
+                    const isVisible = danceType.includes(searchTerm) || 
+                                    instructorName.includes(searchTerm) || 
+                                    day.includes(searchTerm);
+                    
+                    row.style.display = isVisible ? '' : 'none';
+                });
+                
+                // Reset filter buttons when searching
+                if (searchTerm) {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    document.querySelector('[data-filter="all"]').classList.add('active');
+                }
+            });
+            
+            // Animate table rows on load
+            const rows = document.querySelectorAll('#scheduleTable tbody tr');
+            rows.forEach((row, index) => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateY(20px)';
+                row.style.transition = 'all 0.5s ease';
+                
+                setTimeout(() => {
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+        
+        // Booking function
+        function bookClass(danceType, schedule) {
+            // Show confirmation dialog
+            const confirmed = confirm(`Anda akan melakukan booking untuk:\n\nKelas: ${danceType}\nJadwal: ${schedule}\n\nLanjutkan ke halaman reservasi?`);
+            
+            if (confirmed) {
+                // Store booking info in localStorage for reservasi page
+                localStorage.setItem('selectedClass', JSON.stringify({
+                    danceType: danceType,
+                    schedule: schedule,
+                    timestamp: new Date().toISOString()
+                }));
+                
+                // Redirect to reservasi page
+                window.location.href = 'reservasi.html';
+            }
+        }
+        
+        // Show notification (reusable function)
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top: 100px; right: 20px; z-index: 9999; min-width: 300px;';
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+        }
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(139, 69, 19, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(139, 69, 19, 0.95)';
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/script.js"></script>
+    
+    <style>
+        .status-indicator {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+        
+        .status-indicator.available {
+            background-color: var(--success);
+        }
+        
+        .status-indicator.limited {
+            background-color: var(--warning);
+        }
+        
+        .status-indicator.full {
+            background-color: var(--danger);
+        }
+        
+        .day-cell {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .time-cell {
+            font-weight: 500;
+        }
+        
+        .class-name {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .instructor-name {
+            color: var(--text-color);
+        }
+        
+        .price-cell {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .quota-cell {
+            position: relative;
+        }
+        
+        .quota-text {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .quota-bar {
+            width: 100%;
+            height: 6px;
+            background-color: var(--gray-200);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .quota-fill {
+            height: 100%;
+            background-color: var(--success);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+        
+        .quota-fill.full {
+            background-color: var(--danger);
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-badge.available {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .status-badge.limited {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+        
+        .status-badge.full {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .instructor-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+        }
+        
+        @media (max-width: 768px) {
+            .quota-text {
+                font-size: 0.8em;
+            }
+            
+            .quota-bar {
+                height: 4px;
+            }
+            
+            .instructor-photo {
+                width: 30px;
+                height: 30px;
+            }
+        }
+        
+        .table-active {
+            background-color: rgba(139, 69, 19, 0.1) !important;
+        }
+        
+        .card-custom {
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+    </style>
+
+    <script>
+        // Initialize page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFilters();
+            initializeSearch();
+            updateQuotaBars();
+        });
+        
+        function initializeFilters() {
+            const dayFilter = document.getElementById('filterDay');
+            const levelFilter = document.getElementById('filterLevel');
+            const instructorFilter = document.getElementById('filterInstructor');
+            
+            [dayFilter, levelFilter, instructorFilter].forEach(filter => {
+                filter.addEventListener('change', filterTable);
+            });
+        }
+        
+        function initializeSearch() {
+            const searchInput = document.getElementById('searchClass');
+            searchInput.addEventListener('input', function() {
+                filterTable();
+            });
+        }
+        
+        function filterTable() {
+            const dayFilter = document.getElementById('filterDay').value;
+            const levelFilter = document.getElementById('filterLevel').value;
+            const instructorFilter = document.getElementById('filterInstructor').value;
+            const searchFilter = document.getElementById('searchClass').value.toLowerCase();
+            
+            const rows = document.querySelectorAll('#scheduleTable tbody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const day = row.getAttribute('data-day');
+                const level = row.getAttribute('data-level');
+                const instructor = row.getAttribute('data-instructor');
+                const className = row.getAttribute('data-class').toLowerCase();
+                
+                const dayMatch = !dayFilter || day === dayFilter;
+                const levelMatch = !levelFilter || level === levelFilter;
+                const instructorMatch = !instructorFilter || instructor.includes(instructorFilter);
+                const searchMatch = !searchFilter || className.includes(searchFilter);
+                
+                if (dayMatch && levelMatch && instructorMatch && searchMatch) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Show message if no results
+            if (visibleCount === 0) {
+                showNotification('Tidak ada kelas yang sesuai dengan filter yang dipilih', 'info');
+            }
+        }
+        
+        function updateQuotaBars() {
+            const quotaCells = document.querySelectorAll('.quota-cell');
+            
+            quotaCells.forEach(cell => {
+                const quotaText = cell.querySelector('.quota-text').textContent;
+                const quotaBar = cell.querySelector('.quota-fill');
+                
+                if (quotaText.includes('/')) {
+                    const [current, total] = quotaText.split('/').map(Number);
+                    const percentage = (current / total) * 100;
+                    
+                    quotaBar.style.width = percentage + '%';
+                    
+                    // Update color based on percentage
+                    if (percentage >= 90) {
+                        quotaBar.style.background = 'var(--danger)';
+                    } else if (percentage >= 70) {
+                        quotaBar.style.background = 'var(--warning)';
+                    } else {
+                        quotaBar.style.background = 'var(--success)';
+                    }
+                }
+            });
+        }
+        
+        // Book class function (redefined for this page)
+        function bookClass(className, schedule, instructor) {
+            showNotification(`Mengarahkan ke halaman reservasi untuk ${className}...`, 'info');
+            
+            // Redirect to reservation page with parameters
+            const params = new URLSearchParams({
+                class: className,
+                schedule: schedule,
+                instructor: instructor
+            });
+            
+            setTimeout(() => {
+                window.location.href = `reservasi.html?${params.toString()}`;
+            }, 1000);
+        }
+        
+        // Reset filters
+        function resetFilters() {
+            document.getElementById('filterDay').value = '';
+            document.getElementById('filterLevel').value = '';
+            document.getElementById('filterInstructor').value = '';
+            document.getElementById('searchClass').value = '';
+            filterTable();
+            showNotification('Filter telah direset', 'success');
+        }
+        
+        // Add reset button functionality if needed
+        if (document.getElementById('resetFilters')) {
+            document.getElementById('resetFilters').addEventListener('click', resetFilters);
+        }
+        
+        // Print schedule functionality
+        function printSchedule() {
+            window.print();
+        }
+        
+        // Export schedule (placeholder)
+        function exportSchedule() {
+            showNotification('Fitur export akan segera tersedia', 'info');
+        }
+        
+        // Highlight current day
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toLocaleDateString('id-ID', { weekday: 'long' });
+            const rows = document.querySelectorAll('#scheduleTable tbody tr');
+            
+            rows.forEach(row => {
+                const dayCell = row.querySelector('.day-cell');
+                if (dayCell.textContent === today) {
+                    row.classList.add('table-active');
+                    dayCell.innerHTML += ' <span class="badge bg-success ms-1">Hari Ini</span>';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+   
+
+    <!-- Filter Section -->
+   
+
+    <!-- Legend Section -->
+    
+
+   
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/script.js"></script>
+    
+    <style>
+        .status-indicator {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+        
+        .status-indicator.available {
+            background-color: var(--success);
+        }
+        
+        .status-indicator.limited {
+            background-color: var(--warning);
+        }
+        
+        .status-indicator.full {
+            background-color: var(--danger);
+        }
+        
+        .day-cell {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .time-cell {
+            font-weight: 500;
+        }
+        
+        .class-name {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .instructor-name {
+            color: var(--text-color);
+        }
+        
+        .price-cell {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .quota-cell {
+            position: relative;
+        }
+        
+        .quota-text {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .quota-bar {
+            width: 100%;
+            height: 6px;
+            background-color: var(--gray-200);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .quota-fill {
+            height: 100%;
+            background-color: var(--success);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+        
+        .quota-fill.full {
+            background-color: var(--danger);
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-badge.available {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .status-badge.limited {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+        
+        .status-badge.full {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .instructor-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+        }
+        
+        @media (max-width: 768px) {
+            .quota-text {
+                font-size: 0.8em;
+            }
+            
+            .quota-bar {
+                height: 4px;
+            }
+            
+            .instructor-photo {
+                width: 30px;
+                height: 30px;
+            }
+        }
+        
+        .table-active {
+            background-color: rgba(139, 69, 19, 0.1) !important;
+        }
+        
+        .card-custom {
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+    </style>
+
+    <script>
+        // Initialize page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFilters();
+            initializeSearch();
+            updateQuotaBars();
+        });
+        
+        function initializeFilters() {
+            const dayFilter = document.getElementById('filterDay');
+            const levelFilter = document.getElementById('filterLevel');
+            const instructorFilter = document.getElementById('filterInstructor');
+            
+            [dayFilter, levelFilter, instructorFilter].forEach(filter => {
+                filter.addEventListener('change', filterTable);
+            });
+        }
+        
+        function initializeSearch() {
+            const searchInput = document.getElementById('searchClass');
+            searchInput.addEventListener('input', function() {
+                filterTable();
+            });
+        }
+        
+        function filterTable() {
+            const dayFilter = document.getElementById('filterDay').value;
+            const levelFilter = document.getElementById('filterLevel').value;
+            const instructorFilter = document.getElementById('filterInstructor').value;
+            const searchFilter = document.getElementById('searchClass').value.toLowerCase();
+            
+            const rows = document.querySelectorAll('#scheduleTable tbody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const day = row.getAttribute('data-day');
+                const level = row.getAttribute('data-level');
+                const instructor = row.getAttribute('data-instructor');
+                const className = row.getAttribute('data-class').toLowerCase();
+                
+                const dayMatch = !dayFilter || day === dayFilter;
+                const levelMatch = !levelFilter || level === levelFilter;
+                const instructorMatch = !instructorFilter || instructor.includes(instructorFilter);
+                const searchMatch = !searchFilter || className.includes(searchFilter);
+                
+                if (dayMatch && levelMatch && instructorMatch && searchMatch) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Show message if no results
+            if (visibleCount === 0) {
+                showNotification('Tidak ada kelas yang sesuai dengan filter yang dipilih', 'info');
+            }
+        }
+        
+        function updateQuotaBars() {
+            const quotaCells = document.querySelectorAll('.quota-cell');
+            
+            quotaCells.forEach(cell => {
+                const quotaText = cell.querySelector('.quota-text').textContent;
+                const quotaBar = cell.querySelector('.quota-fill');
+                
+                if (quotaText.includes('/')) {
+                    const [current, total] = quotaText.split('/').map(Number);
+                    const percentage = (current / total) * 100;
+                    
+                    quotaBar.style.width = percentage + '%';
+                    
+                    // Update color based on percentage
+                    if (percentage >= 90) {
+                        quotaBar.style.background = 'var(--danger)';
+                    } else if (percentage >= 70) {
+                        quotaBar.style.background = 'var(--warning)';
+                    } else {
+                        quotaBar.style.background = 'var(--success)';
+                    }
+                }
+            });
+        }
+        
+        // Book class function (redefined for this page)
+        function bookClass(className, schedule, instructor) {
+            showNotification(`Mengarahkan ke halaman reservasi untuk ${className}...`, 'info');
+            
+            // Redirect to reservation page with parameters
+            const params = new URLSearchParams({
+                class: className,
+                schedule: schedule,
+                instructor: instructor
+            });
+            
+            setTimeout(() => {
+                window.location.href = `reservasi.html?${params.toString()}`;
+            }, 1000);
+        }
+        
+        // Reset filters
+        function resetFilters() {
+            document.getElementById('filterDay').value = '';
+            document.getElementById('filterLevel').value = '';
+            document.getElementById('filterInstructor').value = '';
+            document.getElementById('searchClass').value = '';
+            filterTable();
+            showNotification('Filter telah direset', 'success');
+        }
+        
+        // Add reset button functionality if needed
+        if (document.getElementById('resetFilters')) {
+            document.getElementById('resetFilters').addEventListener('click', resetFilters);
+        }
+        
+        // Print schedule functionality
+        function printSchedule() {
+            window.print();
+        }
+        
+        // Export schedule (placeholder)
+        function exportSchedule() {
+            showNotification('Fitur export akan segera tersedia', 'info');
+        }
+        
+        // Highlight current day
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toLocaleDateString('id-ID', { weekday: 'long' });
+            const rows = document.querySelectorAll('#scheduleTable tbody tr');
+            
+            rows.forEach(row => {
+                const dayCell = row.querySelector('.day-cell');
+                if (dayCell.textContent === today) {
+                    row.classList.add('table-active');
+                    dayCell.innerHTML += ' <span class="badge bg-success ms-1">Hari Ini</span>';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+                                
+                               
+                              
+                               
+                    
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Class Info Section -->
+    
+
+    <!-- CTA Section -->
+    <section class="py-5">
+        <div class="container text-center">
+            <h3 class="mb-4">Siap Bergabung?</h3>
+            <p class="lead mb-4">Pilih kelas yang sesuai dengan level dan jadwal Anda, lalu lakukan reservasi sekarang!</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="reservasi.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-calendar-plus me-2"></i>Reservasi Sekarang
+                </a>
+                <a href="../index.html#kontak" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-phone me-2"></i>Hubungi Kami
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5>Sanggar Tari Tatra KJD</h5>
+                    <p>Kelompok Jaringan Daerah yang berkomitmen melestarikan seni tari tradisional Indonesia.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Kontak</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Jl. Seni Budaya No. 45, Jakarta Selatan</p>
+                    <p><i class="fas fa-phone me-2"></i>+62 812-3456-7890</p>
+                    <p><i class="fas fa-envelope me-2"></i>info@tatratkjd.com</p>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Jam Operasional</h5>
+                    <p>Senin - Jumat: 15.00 - 21.00 WIB</p>
+                    <p>Sabtu - Minggu: 08.00 - 18.00 WIB</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>&copy; 2025 Sanggar Tari Tatra KJD. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/script.js"></script>
+    
+    <style>
+        .status-indicator {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+        
+        .status-indicator.available {
+            background-color: var(--success);
+        }
+        
+        .status-indicator.limited {
+            background-color: var(--warning);
+        }
+        
+        .status-indicator.full {
+            background-color: var(--danger);
+        }
+        
+        .day-cell {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .time-cell {
+            font-weight: 500;
+            color: var(--gray-600);
+        }
+        
+        .class-name {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .instructor-name {
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .price-cell {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .quota-cell {
+            min-width: 120px;
+        }
+        
+        .quota-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .quota-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #e9ecef;
+            border-radius: 3px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+        
+        .quota-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--warning), var(--danger));
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-badge.available {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .status-badge.limited {
+            background-color: var(--warning);
+            color: var(--text-dark);
+        }
+        
+        .status-badge.full {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .table th {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            font-weight: 600;
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+            border-color: #e9ecef;
+        }
+        
+        .table tbody tr:hover {
+            background-color: rgba(139, 69, 19, 0.05);
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        @media (max-width: 768px) {
+            .table-responsive {
+                font-size: 0.85rem;
+            }
+            
+            .btn-sm {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+            }
+            
+            .quota-cell {
+                min-width: 100px;
+            }
+        }
+    </style>
+    
+    <script>
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFilters();
+            initializeSearch();
+            updateQuotaBars();
+        });
+        
+        function initializeFilters() {
+            const dayFilter = document.getElementById('filterDay');
+            const levelFilter = document.getElementById('filterLevel');
+            const instructorFilter = document.getElementById('filterInstructor');
+            
+            [dayFilter, levelFilter, instructorFilter].forEach(filter => {
+                filter.addEventListener('change', filterTable);
+            });
+        }
+        
+        function initializeSearch() {
+            const searchInput = document.getElementById('searchClass');
+            searchInput.addEventListener('input', function() {
+                filterTable();
+            });
+        }
+        
+        function filterTable() {
+            const dayFilter = document.getElementById('filterDay').value;
+            const levelFilter = document.getElementById('filterLevel').value;
+            const instructorFilter = document.getElementById('filterInstructor').value;
+            const searchFilter = document.getElementById('searchClass').value.toLowerCase();
+            
+            const rows = document.querySelectorAll('#scheduleTable tbody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const day = row.getAttribute('data-day');
+                const level = row.getAttribute('data-level');
+                const instructor = row.getAttribute('data-instructor');
+                const className = row.getAttribute('data-class').toLowerCase();
+                
+                const dayMatch = !dayFilter || day === dayFilter;
+                const levelMatch = !levelFilter || level === levelFilter;
+                const instructorMatch = !instructorFilter || instructor.includes(instructorFilter);
+                const searchMatch = !searchFilter || className.includes(searchFilter);
+                
+                if (dayMatch && levelMatch && instructorMatch && searchMatch) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Show message if no results
+            if (visibleCount === 0) {
+                showNotification('Tidak ada kelas yang sesuai dengan filter yang dipilih', 'info');
+            }
+        }
+        
+        function updateQuotaBars() {
+            const quotaCells = document.querySelectorAll('.quota-cell');
+            
+            quotaCells.forEach(cell => {
+                const quotaText = cell.querySelector('.quota-text').textContent;
+                const quotaBar = cell.querySelector('.quota-fill');
+                
+                if (quotaText.includes('/')) {
+                    const [current, total] = quotaText.split('/').map(Number);
+                    const percentage = (current / total) * 100;
+                    
+                    quotaBar.style.width = percentage + '%';
+                    
+                    // Update color based on percentage
+                    if (percentage >= 90) {
+                        quotaBar.style.background = 'var(--danger)';
+                    } else if (percentage >= 70) {
+                        quotaBar.style.background = 'var(--warning)';
+                    } else {
+                        quotaBar.style.background = 'var(--success)';
+                    }
+                }
+            });
+        }
+        
+        // Book class function (redefined for this page)
+        function bookClass(className, schedule, instructor) {
+            showNotification(`Mengarahkan ke halaman reservasi untuk ${className}...`, 'info');
+            
+            // Redirect to reservation page with parameters
+            const params = new URLSearchParams({
+                class: className,
+                schedule: schedule,
+                instructor: instructor
+            });
+            
+            setTimeout(() => {
+                window.location.href = `reservasi.html?${params.toString()}`;
+            }, 1000);
+        }
+        
+        // Reset filters
+        function resetFilters() {
+            document.getElementById('filterDay').value = '';
+            document.getElementById('filterLevel').value = '';
+            document.getElementById('filterInstructor').value = '';
+            document.getElementById('searchClass').value = '';
+            filterTable();
+            showNotification('Filter telah direset', 'success');
+        }
+        
+        // Add reset button functionality if needed
+        if (document.getElementById('resetFilters')) {
+            document.getElementById('resetFilters').addEventListener('click', resetFilters);
+        }
+        
+        // Print schedule functionality
+        function printSchedule() {
+            window.print();
+        }
+        
+        // Export schedule (placeholder)
+        function exportSchedule() {
+            showNotification('Fitur export akan segera tersedia', 'info');
+        }
+        
+        // Highlight current day
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toLocaleDateString('id-ID', { weekday: 'long' });
+            const rows = document.querySelectorAll('#scheduleTable tbody tr');
+            
+            rows.forEach(row => {
+                const dayCell = row.querySelector('.day-cell');
+                if (dayCell.textContent === today) {
+                    row.classList.add('table-active');
+                    dayCell.innerHTML += ' <span class="badge bg-success ms-1">Hari Ini</span>';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

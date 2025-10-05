@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Sanggar Tari Tatra KJD</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <style>
+      :root {
+        --primary-color: #8b4513;
+        --secondary-color: #d2691e;
+        --accent-color: #ffd700;
+        --light-gold: #fff8dc;
+        --text-dark: #2c3e50;
+        --text-light: #7f8c8d;
+        --success: #27ae60;
+        --warning: #f39c12;
+        --danger: #e74c3c;
+        --gray-100: #f8f9fa;
+        --gray-200: #e9ecef;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, var(--light-gold), #ffffff);
+        min-height: 100vh;
+        padding: 2rem 0;
+      }
+
+      .auth-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .auth-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(139, 69, 19, 0.1);
+        overflow: hidden;
+        width: 100%;
+        max-width: 450px;
+      }
+
+      .auth-header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .auth-header h2 {
+        margin: 0;
+        font-family: "Playfair Display", serif;
+        font-weight: 600;
+      }
+
+      .auth-header p {
+        margin: 0.5rem 0 0 0;
+        opacity: 0.9;
+      }
+
+      .auth-body {
+        padding: 2rem;
+      }
+
+      .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 12px 15px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(139, 69, 19, 0.25);
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        border: none;
+        border-radius: 10px;
+        padding: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(139, 69, 19, 0.3);
+        background: linear-gradient(
+          135deg,
+          var(--secondary-color),
+          var(--primary-color)
+        );
+      }
+
+      .auth-links {
+        text-align: center;
+        margin-top: 1.5rem;
+      }
+
+      .auth-links a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .auth-links a:hover {
+        color: var(--secondary-color);
+        text-decoration: underline;
+      }
+
+      .divider {
+        text-align: center;
+        margin: 1.5rem 0;
+        position: relative;
+      }
+
+      .divider::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #e9ecef;
+      }
+
+      .divider span {
+        background: white;
+        padding: 0 1rem;
+        color: var(--text-light);
+        font-size: 0.9rem;
+      }
+
+      .brand-link {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        z-index: 1000;
+      }
+
+      .brand-link:hover {
+        color: var(--secondary-color);
+      }
+    </style>
+
+    <!-- Brand Link -->
+    <a href="../index.html" class="brand-link">
+      <i class="fas fa-music me-2"></i>Sanggar Tari Tatra KJD
+    </a>
+
+    <!-- Login Container -->
+    <div class="auth-container">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-5 col-md-7 col-sm-9">
+            <div class="auth-card">
+              <!-- Header -->
+              <div class="auth-header">
+                <i class="fas fa-sign-in-alt fa-3x mb-3"></i>
+                <h2>Masuk</h2>
+                <p>Selamat datang kembali! Silakan masuk ke akun Anda.</p>
+              </div>
+
+              <!-- Body -->
+              <div class="auth-body">
+                <form id="loginForm" novalidate>
+                  <div class="mb-3">
+                    <label for="email" class="form-label">
+                      <i class="fas fa-envelope me-2"></i>Email
+                    </label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      placeholder="Masukkan email Anda"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Silakan masukkan email yang valid.
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="password" class="form-label">
+                      <i class="fas fa-lock me-2"></i>Password
+                    </label>
+                    <div class="input-group">
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        placeholder="Masukkan password Anda"
+                        required
+                      />
+                      <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        id="togglePassword"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </div>
+                    <div class="invalid-feedback">Password wajib diisi.</div>
+                  </div>
+
+                  <div class="mb-3 form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="rememberMe"
+                    />
+                    <label class="form-check-label" for="rememberMe">
+                      Ingat saya
+                    </label>
+                  </div>
+
+                  <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                      <i class="fas fa-sign-in-alt me-2"></i>Masuk
+                    </button>
+                  </div>
+
+                  <div class="text-center">
+                    <a href="#" id="forgotPasswordLink">Lupa password?</a>
+                  </div>
+                </form>
+
+                <div class="divider">
+                  <span>atau</span>
+                </div>
+
+                <div class="auth-links">
+                  <p class="mb-2">Belum punya akun?</p>
+                  <a href="register.html" class="fw-bold">Daftar di sini</a>
+                </div>
+
+                <!-- Logout option if already logged in -->
+                <div
+                  id="logoutOption"
+                  class="text-center mt-3"
+                  style="display: none"
+                >
+                  <small class="text-muted">Atau</small><br />
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary btn-sm mt-2"
+                    id="logoutBtn"
+                  >
+                    <i class="fas fa-sign-out-alt me-1"></i>Logout dari Akun
+                    Lain
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // Login form handling
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          if (this.checkValidity()) {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Show loading
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML =
+              '<i class="fas fa-spinner fa-spin me-2"></i>Memproses...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+              submitBtn.innerHTML = originalText;
+              submitBtn.disabled = false;
+
+              // Check demo accounts
+              if (
+                (email === "admin@tatratkjd.com" && password === "admin123") ||
+                (email === "user@example.com" && password === "user123")
+              ) {
+                // Save login status
+                localStorage.setItem("isLoggedIn", true);
+                localStorage.setItem(
+                  "userType",
+                  email.includes("admin") ? "admin" : "user"
+                );
+                localStorage.setItem("userEmail", email);
+
+                // Show success message
+                showNotification("Login berhasil! Mengarahkan...", "success");
+
+                setTimeout(() => {
+                  if (email.includes("admin")) {
+                    window.location.href = "admin.html";
+                  } else {
+                    window.location.href = "../index.html";
+                  }
+                }, 1500);
+              } else {
+                showNotification("Email atau password salah!", "error");
+              }
+            }, 2000);
+          }
+
+          this.classList.add("was-validated");
+        });
+
+      // Toggle password visibility
+      document
+        .getElementById("togglePassword")
+        .addEventListener("click", function () {
+          const passwordInput = document.getElementById("password");
+          const icon = this.querySelector("i");
+
+          if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+          } else {
+            passwordInput.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+          }
+        });
+
+      // Forgot password
+      document
+        .getElementById("forgotPasswordLink")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          showNotification("Fitur reset password akan segera tersedia", "info");
+        });
+
+      // Notification function
+      function showNotification(message, type) {
+        // Create notification element
+        const notification = document.createElement("div");
+        notification.className = `alert alert-${
+          type === "error" ? "danger" : type
+        } alert-dismissible fade show position-fixed`;
+        notification.style.cssText =
+          "top: 20px; right: 20px; z-index: 9999; min-width: 300px;";
+        notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+
+        document.body.appendChild(notification);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.remove();
+          }
+        }, 5000);
+      }
+
+      // Check if already logged in
+      document.addEventListener("DOMContentLoaded", function () {
+        const isLoggedIn = localStorage.getItem("isLoggedIn");
+        if (isLoggedIn === "true") {
+          const userType = localStorage.getItem("userType");
+          const userEmail = localStorage.getItem("userEmail");
+
+          // Show notification but allow user to stay on login page
+          showNotification(
+            `Anda sudah login sebagai ${userEmail}. Klik di sini untuk ke dashboard.`,
+            "info"
+          );
+
+          // Show logout option
+          document.getElementById("logoutOption").style.display = "block";
+
+          // Add a button to go to dashboard instead of auto-redirect
+          const notification = document.querySelector(".alert-info");
+          if (notification) {
+            notification.style.cursor = "pointer";
+            notification.addEventListener("click", function () {
+              if (userType === "admin") {
+                window.location.href = "admin.html";
+              } else {
+                window.location.href = "../index.html";
+              }
+            });
+          }
+        }
+      });
+
+      // Logout function
+      document.addEventListener("click", function (e) {
+        if (e.target.id === "logoutBtn" || e.target.closest("#logoutBtn")) {
+          // Clear localStorage
+          localStorage.removeItem("isLoggedIn");
+          localStorage.removeItem("userType");
+          localStorage.removeItem("userEmail");
+
+          // Hide logout option
+          document.getElementById("logoutOption").style.display = "none";
+
+          // Clear any existing notifications
+          const notifications = document.querySelectorAll(".alert");
+          notifications.forEach((notif) => notif.remove());
+
+          showNotification(
+            "Berhasil logout. Silakan login dengan akun lain.",
+            "success"
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
